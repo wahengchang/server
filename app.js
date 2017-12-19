@@ -30,6 +30,8 @@ var app = express()
 //      MongoLab
 //      bike (CURD: Create, Update, Read, Delete)
 
+app.use('/users', require('./routers/users'))
+
 app.get('/', function (req, res) {
     res.send('hello')
 })
