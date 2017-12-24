@@ -1,7 +1,21 @@
-var express = require('express')
-const port = process.env.PORT || 3000
+var express = require('express');
+const port = process.env.PORT || 3000;
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const keys = require('./config/keys');
 
-var app = express()
+require('./modules/dataBase/user');
+
+var app = express();
+
+// Database connection
+mongoose.connect(keys.database, (err) => {
+  if (err){
+    console.log(err);
+  } else {
+    console.log('Connected');
+  }
+});
 
 /*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_
 // Goal mbr sysem
@@ -29,6 +43,9 @@ var app = express()
 //  Knowledge
 //      MongoLab
 //      bike (CURD: Create, Update, Read, Delete)
+
+// Install middleware to parse the request body
+app.use(bodyParser.json());
 
 app.use('/users', require('./routers/users'))
 
