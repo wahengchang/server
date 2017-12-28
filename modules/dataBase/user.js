@@ -15,7 +15,6 @@ const UserSchema = new Schema({
   gender:{
     type:String
   }
-
 });
 
 mongoose.model('Users', UserSchema);
