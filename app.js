@@ -2,20 +2,28 @@ var express = require('express');
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const keys = require('./config/keys');
+const mongoUsername = process.env.MONGO_USERNAME;
+const mongoPassword = process.env.MONGO_PASSWORD;
+const mongoURI = process.env.MONGO_URI;
+// const databaseKey = `mongodb://${mongoUsername}:${mongoPassword}@${mongoURI}`;
+const databaseKey = require('./config/keys.js').database;
+
+
+// console.log(`MongoUsername is : ${mongoUsername}`);
 
 require('./modules/dataBase/user');
 
 var app = express();
 
 // Database connection
-mongoose.connect(keys.database, (err) => {
+mongoose.connect(databaseKey, (err) => {
   if (err){
     console.log(err);
   } else {
     console.log('Connected');
   }
 });
+
 
 /*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_
 // Goal mbr sysem

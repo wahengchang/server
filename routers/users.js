@@ -30,7 +30,7 @@ router.post('/register', (req, res) => {
     if (err){
       res.json({success: false, msg:'Failed to register'});
     }else{
-      res.json({success: true, msg:`Registered user`});
+      res.json({success: true, msg:'Registered user'});
     }
   });
 });
@@ -58,8 +58,8 @@ router.put('/edit', (req, res) => {
 });
 
 // Delete a user
-router.delete('/delete/:username', (req, res) => {
-  User.findOneAndRemove({username:req.params.username}, (err) => {
+router.delete('/delete', (req, res) => {
+  User.findOneAndRemove({username:req.body.username}, (err) => {
     if (err) {
       res.json({success: false, msg:'Cannot remover user'});
     } else {
