@@ -2,10 +2,6 @@ var express = require("express");
 const port = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const mongoUsername = process.env.MONGO_USERNAME;
-const mongoPassword = process.env.MONGO_PASSWORD;
-const mongoURL = process.env.MONGO_URL;
-const databaseKey = `mongodb://${mongoUsername}:${mongoPassword}@${mongoURL}`;
 
 require("./modules/dataBase/user");
 
