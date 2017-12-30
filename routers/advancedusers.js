@@ -7,7 +7,7 @@ const router = express.Router();
 const advancedUserModel = require("../modules/dataBase/advancedUsers.js");
 
 // Retrieve the user record
-router.get("/get/:username", (req, res) => {
+router.get("/:username", (req, res) => {
   let condition = { username: req.params.username };
 
   advancedUserModel
@@ -20,15 +20,9 @@ router.get("/get/:username", (req, res) => {
 
 // Register a new user
 router.post("/register", (req, res) => {
-  let data = {
-    name: req.body.name,
-    id: req.body.id,
-    username: req.body.username,
-    gender: req.body.gender
-  };
 
   advancedUserModel
-    .create(data)
+    .create(req.body)
     .then(
       () => res.json({ success: true, msg: "Registered user" }),
       err => res.json({ success: false, msg: "Failed to register" })
@@ -36,7 +30,7 @@ router.post("/register", (req, res) => {
 });
 
 // Edit the user profile
-router.put("/edit", (req, res) => {
+router.put("/", (req, res) => {
   let condition = {
     username: req.body.username
   };
@@ -56,7 +50,7 @@ router.put("/edit", (req, res) => {
 });
 
 // Delete a user
-router.delete("/delete", (req, res) => {
+router.delete("/", (req, res) => {
   let condition = {
     username: req.body.username
   };
@@ -65,8 +59,8 @@ router.delete("/delete", (req, res) => {
     .deleteByCondition(condition, null)
     .then(
       () => res.json({ success: true, msg: "Deleted user" }),
-      err => res.json({ success: false, msg: "Failed to delete user" })
-    )
+      err => res.json({ success: false, msg: "Failed to del user" })
+    );
 });
 
 module.exports = router;

@@ -49,8 +49,8 @@ var app = express();
 // Install middleware to parse the request body
 app.use(bodyParser.json());
 
-app.use("/users", require("./routers/users"));
-app.use("/advancedusers", require("./routers/advancedusers"));
+// app.use("/users", require("./routers/users"));
+app.use("/api/v1/advancedusers", require("./routers/advancedusers"));
 
 app.get("/", function(req, res) {
   res.send("hello");

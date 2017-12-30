@@ -26,8 +26,8 @@ let advancedUserSchema = new Schema({
   }
 });
 
-advancedUserSchema.pre("save", next => {
-  this.updatedAt = Date.now;
+advancedUserSchema.pre("update", next => {
+  this.update({},{ $set: { updatedAt: Date.now } });
   next();
 });
 
