@@ -1,20 +1,36 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Schema = require("mongoose").Schema;
+const Abstract = require("./abstract");
 
-// Define the user schema
-const UserSchema = new Schema({
-  name:{
+let UserSchema = new Schema({
+  name: {
     type: String,
-    required:true
+    required: true
   },
-  username:{
-    type:String,
-    required:true,
-    unique:true
+  id: {
+    type: String,
+    required: true,
+    unqiue: true
   },
-  gender:{
-    type:String
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  gender: {
+    type: String,
+    default: "N/A"
+  },
+  createdAt: {
+    type: String,
+    default: Date.now
   }
 });
 
-mongoose.model('Users', UserSchema);
+UserSchema.pre("update", next => {
+  this.update({},{ $set: { updatedAt: Date.now } });
+  next();
+});
+
+const UserModel = new Abstract("UsersDB", UserSchema);
+
+module.exports = UserModel;

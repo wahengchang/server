@@ -4,66 +4,64 @@
 const express = require("express");
 const router = express.Router();
 
-const mongoose = require("mongoose");
-const User = mongoose.model("Users");
+const UserModel = require("../modules/dataBase/user.js");
 
 // Retrieve the user record
-router.get("/get/:username", (req, res) => {
-  User.findOne({ username: req.params.username }, (err, user) => {
-    if (err) {
-      res.json({ success: false, msg: "Cannot find user" });
-    } else {
-      res.json({ success: true, msg: "Your name is " + user.name });
-    }
-  });
+router.get("/:username", (req, res) => {
+  let condition = { username: req.params.username };
+
+  UserModel
+    .getByCondition(condition)
+    .then(obj => res.send(`Your name is ${obj.name}, ok?`))
+    .catch(err =>
+      res.send(`The username ${req.params.username} does not exists`)
+    );
 });
 
 // Register a new user
-router.post("/register", (req, res) => {
-  let newUser = new User({
-    name: req.body.name,
-    username: req.body.username,
-    gender: req.body.gender
-  });
+router.post("/", (req, res) => {
 
-  newUser.save(err => {
-    if (err) {
-      res.json({ success: false, msg: "Failed to register" });
-    } else {
-      res.json({ success: true, msg: "Registered user" });
-    }
-  });
+  UserModel
+    .create(req.body)
+    .then(
+      () => res.json({ success: true, msg: "Registered user" }),
+      err => res.send(err)
+      // err => res.json({ success: false, msg: "Failed to register" })
+    );
 });
 
 // Edit the user profile
-router.put("/edit", (req, res) => {
-  User.findOne({ username: req.body.username }, (err, user) => {
-    if (err) {
-      res.json({ success: false, msg: "Cannot find user" });
-    } else {
-      user.name = req.body.name;
-      user.gender = req.body.gender;
+router.put("/", (req, res) => {
+  let condition = {
+    username: req.body.username
+  };
 
-      user.save(err => {
-        if (err) {
-          res.json({ success: false, msg: "Cannot save user" });
-        } else {
-          res.json({ success: true, msg: "User saved" });
-        }
-      });
-    }
-  });
+  let update = {
+    name: req.body.name,
+    gender: req.body.gender,
+    id: req.body.id
+  };
+
+  UserModel
+    .updateByCondition(condition, update, null)
+    .then(
+      () => res.json({ success: true, msg: "Updated user" }),
+      err => res.json({ success: false, msg: "Failed to update user" })
+    );
 });
 
 // Delete a user
-router.delete("/delete", (req, res) => {
-  User.findOneAndRemove({ username: req.body.username }, err => {
-    if (err) {
-      res.json({ success: false, msg: "Cannot remover user" });
-    } else {
-      res.json({ success: true, msg: "User removed" });
-    }
-  });
+router.delete("/", (req, res) => {
+  let condition = {
+    username: req.body.username
+  };
+
+  UserModel
+    .deleteByCondition(condition, null)
+    .then(
+      () => res.json({ success: true, msg: "Deleted user" }),
+      err => res.json({ success: false, msg: "Failed to del user" })
+    );
 });
 
 module.exports = router;
