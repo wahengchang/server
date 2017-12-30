@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "./node_modules/jest/bin/jest.js",
-    "dev": "node app.js"
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,9 @@
   },
   "homepage": "https://github.com/4boyss/server#readme",
   "dependencies": {
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "mongoose": "^4.13.8",
+    "nodemon": "^1.14.1"
   },
   "devDependencies": {
     "jest": "^22.0.1",
