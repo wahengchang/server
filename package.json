@@ -8,7 +8,8 @@
     "npm": "3.10.10"
   },
   "scripts": {
-    "test": "./node_modules/jest/bin/jest.js",
+    "lint": "./node_modules/standard/bin/cmd.js .",
+    "test": "standard . && ./node_modules/jest/bin/jest.js --coverage --forceExit",
     "dev": "nodemon app.js"
   },
   "repository": {
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "jest": "^22.0.1",
-    "node-mocks-http": "^1.6.6"
+    "node-mocks-http": "^1.6.6",
+    "standard": "^10.0.3"
   }
 }
